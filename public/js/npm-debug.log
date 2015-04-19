@@ -1,0 +1,205 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node',
+1 verbose cli   '/usr/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'esformatter-jsx',
+1 verbose cli   '--save-dev' ]
+2 info using npm@1.3.6
+3 info using node@v0.10.36
+4 verbose cache add [ 'esformatter-jsx', null ]
+5 verbose cache add name=undefined spec="esformatter-jsx" args=["esformatter-jsx",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'esformatter-jsx',
+6 verbose parsed url   path: 'esformatter-jsx',
+6 verbose parsed url   href: 'esformatter-jsx' }
+7 silly lockFile 2906c06f-esformatter-jsx esformatter-jsx
+8 verbose lock esformatter-jsx /home/zappala/.npm/2906c06f-esformatter-jsx.lock
+9 silly lockFile 2906c06f-esformatter-jsx esformatter-jsx
+10 silly lockFile 2906c06f-esformatter-jsx esformatter-jsx
+11 verbose addNamed [ 'esformatter-jsx', '' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile 6e8382a1-esformatter-jsx esformatter-jsx@
+14 verbose lock esformatter-jsx@ /home/zappala/.npm/6e8382a1-esformatter-jsx.lock
+15 silly addNameRange { name: 'esformatter-jsx', range: '*', hasData: false }
+16 verbose url raw esformatter-jsx
+17 verbose url resolving [ 'https://registry.npmjs.org/', './esformatter-jsx' ]
+18 verbose url resolved https://registry.npmjs.org/esformatter-jsx
+19 info trying registry request attempt 1 at 16:02:10
+20 http GET https://registry.npmjs.org/esformatter-jsx
+21 http 200 https://registry.npmjs.org/esformatter-jsx
+22 silly registry.get cb [ 200,
+22 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+22 silly registry.get     etag: '"FCOO60JIUPJCI31A2K4ATIID"',
+22 silly registry.get     'content-type': 'application/json',
+22 silly registry.get     'cache-control': 'max-age=60',
+22 silly registry.get     'content-length': '20509',
+22 silly registry.get     'accept-ranges': 'bytes',
+22 silly registry.get     date: 'Sat, 18 Apr 2015 22:02:10 GMT',
+22 silly registry.get     via: '1.1 varnish',
+22 silly registry.get     age: '0',
+22 silly registry.get     connection: 'keep-alive',
+22 silly registry.get     'x-served-by': 'cache-ord1728-ORD',
+22 silly registry.get     'x-cache': 'MISS',
+22 silly registry.get     'x-cache-hits': '0',
+22 silly registry.get     'x-timer': 'S1429394530.808587,VS0,VE72',
+22 silly registry.get     vary: 'Accept' } ]
+23 silly addNameRange number 2 { name: 'esformatter-jsx', range: '*', hasData: true }
+24 silly addNameRange versions [ 'esformatter-jsx',
+24 silly addNameRange   [ '1.0.0',
+24 silly addNameRange     '1.0.1',
+24 silly addNameRange     '1.0.2',
+24 silly addNameRange     '1.0.3',
+24 silly addNameRange     '1.0.4',
+24 silly addNameRange     '1.0.5',
+24 silly addNameRange     '1.0.6',
+24 silly addNameRange     '1.0.7',
+24 silly addNameRange     '1.0.8' ] ]
+25 verbose addNamed [ 'esformatter-jsx', '1.0.8' ]
+26 verbose addNamed [ '1.0.8', '1.0.8' ]
+27 silly lockFile 7fd7e0a3-esformatter-jsx-1-0-8 esformatter-jsx@1.0.8
+28 verbose lock esformatter-jsx@1.0.8 /home/zappala/.npm/7fd7e0a3-esformatter-jsx-1-0-8.lock
+29 silly lockFile c94f35ea-er-jsx-esformatter-jsx-1-0-8-tgz https://registry.npmjs.org/esformatter-jsx/-/esformatter-jsx-1.0.8.tgz
+30 verbose lock https://registry.npmjs.org/esformatter-jsx/-/esformatter-jsx-1.0.8.tgz /home/zappala/.npm/c94f35ea-er-jsx-esformatter-jsx-1-0-8-tgz.lock
+31 verbose addRemoteTarball [ 'https://registry.npmjs.org/esformatter-jsx/-/esformatter-jsx-1.0.8.tgz',
+31 verbose addRemoteTarball   'ed01207e094b034227558dd331cdc89e95d1bdc0' ]
+32 info retry fetch attempt 1 at 16:02:11
+33 verbose fetch to= /home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/tmp.tgz
+34 http GET https://registry.npmjs.org/esformatter-jsx/-/esformatter-jsx-1.0.8.tgz
+35 http 200 https://registry.npmjs.org/esformatter-jsx/-/esformatter-jsx-1.0.8.tgz
+36 verbose tar unpack /home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/tmp.tgz
+37 silly lockFile 5a0cdc0e-31003-0-6665359647013247-package tar:///home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/package
+38 verbose lock tar:///home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/package /home/zappala/.npm/5a0cdc0e-31003-0-6665359647013247-package.lock
+39 silly lockFile 57e5710a-31003-0-6665359647013247-tmp-tgz tar:///home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/tmp.tgz
+40 verbose lock tar:///home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/tmp.tgz /home/zappala/.npm/57e5710a-31003-0-6665359647013247-tmp-tgz.lock
+41 silly gunzTarPerm modes [ '755', '644' ]
+42 silly gunzTarPerm extractEntry package.json
+43 silly gunzTarPerm extractEntry README.md
+44 silly gunzTarPerm extractEntry LICENSE
+45 silly gunzTarPerm extractEntry index.js
+46 silly lockFile 5a0cdc0e-31003-0-6665359647013247-package tar:///home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/package
+47 silly lockFile 5a0cdc0e-31003-0-6665359647013247-package tar:///home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/package
+48 silly lockFile 57e5710a-31003-0-6665359647013247-tmp-tgz tar:///home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/tmp.tgz
+49 silly lockFile 57e5710a-31003-0-6665359647013247-tmp-tgz tar:///home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/tmp.tgz
+50 verbose tar pack [ '/home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz',
+50 verbose tar pack   '/home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/package' ]
+51 verbose tarball /home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz
+52 verbose folder /home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/package
+53 silly lockFile 5a0cdc0e-31003-0-6665359647013247-package tar:///home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/package
+54 verbose lock tar:///home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/package /home/zappala/.npm/5a0cdc0e-31003-0-6665359647013247-package.lock
+55 silly lockFile f22c8afa-sformatter-jsx-1-0-8-package-tgz tar:///home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz
+56 verbose lock tar:///home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz /home/zappala/.npm/f22c8afa-sformatter-jsx-1-0-8-package-tgz.lock
+57 silly lockFile 5a0cdc0e-31003-0-6665359647013247-package tar:///home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/package
+58 silly lockFile 5a0cdc0e-31003-0-6665359647013247-package tar:///home/zappala/tmp/npm-7223-aqgFaFX5/1429394531003-0.6665359647013247/package
+59 silly lockFile f22c8afa-sformatter-jsx-1-0-8-package-tgz tar:///home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz
+60 silly lockFile f22c8afa-sformatter-jsx-1-0-8-package-tgz tar:///home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz
+61 silly lockFile 2d75182e-pm-esformatter-jsx-1-0-8-package /home/zappala/.npm/esformatter-jsx/1.0.8/package
+62 verbose lock /home/zappala/.npm/esformatter-jsx/1.0.8/package /home/zappala/.npm/2d75182e-pm-esformatter-jsx-1-0-8-package.lock
+63 silly lockFile 2d75182e-pm-esformatter-jsx-1-0-8-package /home/zappala/.npm/esformatter-jsx/1.0.8/package
+64 silly lockFile 2d75182e-pm-esformatter-jsx-1-0-8-package /home/zappala/.npm/esformatter-jsx/1.0.8/package
+65 verbose tar unpack /home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz
+66 silly lockFile 8014086f-pm-esformatter-jsx-1-0-8-package tar:///home/zappala/.npm/esformatter-jsx/1.0.8/package
+67 verbose lock tar:///home/zappala/.npm/esformatter-jsx/1.0.8/package /home/zappala/.npm/8014086f-pm-esformatter-jsx-1-0-8-package.lock
+68 silly lockFile f22c8afa-sformatter-jsx-1-0-8-package-tgz tar:///home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz
+69 verbose lock tar:///home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz /home/zappala/.npm/f22c8afa-sformatter-jsx-1-0-8-package-tgz.lock
+70 silly gunzTarPerm modes [ '755', '644' ]
+71 silly gunzTarPerm extractEntry package.json
+72 silly gunzTarPerm extractEntry README.md
+73 silly gunzTarPerm extractEntry index.js
+74 silly lockFile 8014086f-pm-esformatter-jsx-1-0-8-package tar:///home/zappala/.npm/esformatter-jsx/1.0.8/package
+75 silly lockFile 8014086f-pm-esformatter-jsx-1-0-8-package tar:///home/zappala/.npm/esformatter-jsx/1.0.8/package
+76 silly lockFile f22c8afa-sformatter-jsx-1-0-8-package-tgz tar:///home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz
+77 silly lockFile f22c8afa-sformatter-jsx-1-0-8-package-tgz tar:///home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz
+78 verbose chmod /home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz 644
+79 verbose chown /home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz [ 1000, 1000 ]
+80 silly lockFile c94f35ea-er-jsx-esformatter-jsx-1-0-8-tgz https://registry.npmjs.org/esformatter-jsx/-/esformatter-jsx-1.0.8.tgz
+81 silly lockFile c94f35ea-er-jsx-esformatter-jsx-1-0-8-tgz https://registry.npmjs.org/esformatter-jsx/-/esformatter-jsx-1.0.8.tgz
+82 silly lockFile 7fd7e0a3-esformatter-jsx-1-0-8 esformatter-jsx@1.0.8
+83 silly lockFile 7fd7e0a3-esformatter-jsx-1-0-8 esformatter-jsx@1.0.8
+84 silly lockFile 6e8382a1-esformatter-jsx esformatter-jsx@
+85 silly lockFile 6e8382a1-esformatter-jsx esformatter-jsx@
+86 silly resolved [ { name: 'esformatter-jsx',
+86 silly resolved     version: '1.0.8',
+86 silly resolved     description: 'esformatter plugin: format javascript files that contain React JSX blocks',
+86 silly resolved     repository: { type: 'git', url: 'royriojas/esformatter-jsx' },
+86 silly resolved     license: 'MIT',
+86 silly resolved     author: { name: 'Roy Riojas', url: 'http://royriojas.com' },
+86 silly resolved     main: 'index.js',
+86 silly resolved     files: [ 'index.js' ],
+86 silly resolved     engines: { node: '>=0.10.0' },
+86 silly resolved     scripts:
+86 silly resolved      { test: 'mocha -R spec test',
+86 silly resolved        watch: 'mocha -R spec --watch test' },
+86 silly resolved     keywords:
+86 silly resolved      [ 'esformatter-plugin',
+86 silly resolved        'esformatter',
+86 silly resolved        'jsx',
+86 silly resolved        'react jsx',
+86 silly resolved        'AST',
+86 silly resolved        'esprima-fb',
+86 silly resolved        'fresh-falafel',
+86 silly resolved        'codestyle',
+86 silly resolved        'react jsx' ],
+86 silly resolved     peerDependencies: {},
+86 silly resolved     dependencies:
+86 silly resolved      { 'esprima-fb': '^13001.1.0-dev-harmony-fb',
+86 silly resolved        'fresh-falafel': '^0.2.6',
+86 silly resolved        'js-beautify': '^1.5.4',
+86 silly resolved        'lodash.defaults': '^3.0.0' },
+86 silly resolved     devDependencies:
+86 silly resolved      { chai: '*',
+86 silly resolved        esformatter: '^0.5.0',
+86 silly resolved        mocha: '*',
+86 silly resolved        'read-json-sync': '^1.1.0' },
+86 silly resolved     readme: '# [esformatter](https://github.com/millermedeiros/esformatter)-jsx\n> esformatter plugin: format javascript files that contain React JSX blocks\n\n[![NPM Version](http://img.shields.io/npm/v/esformatter-jsx.svg?style=flat)](https://npmjs.org/package/esformatter-jsx)\n[![Build Status](http://img.shields.io/travis/royriojas/esformatter-jsx.svg?style=flat)](https://travis-ci.org/royriojas/esformatter-jsx)\n\n## Demo\n\nLive demo: [esformatter-jsx](http://requirebin.com/embed?gist=0d67452e01754269660f)\n\n## Notes\n\n### Nested jsx elements and ternary operators\n\nThe following construct will be a bit problematic\n```javascript\nreturn <div>\n  { this.state.allSaved ? <div> some content </div> : null }\n</div>;\n```\n\nthis will be beautified as \n\n```javascript\nreturn <div>\n         { this.state.allSaved ? \n         <div> all Saved! </div> : null }\n       </div>;\n```\n\nWhere possible try to assign that content from outside and use something like this\n\n```javascript\nvar allSaved =  this.state.allSaved ? <div>All Saved!</div> : null;\nreturn <div>\n  {allSaved}\n</div>\n```\n\nThe previous will be beautified as \n```javascript\nvar allSaved =  this.state.allSaved ? <div>All Saved!</div> : null;\nreturn <div>\n         {allSaved}\n       </div>\n```\n\nWhich IMHO looks better.\n\n### best configuration\n\nIf you\'re running into troubles with the formatting applied to your files I found this configuration to work the best:\n\n```javascript\n{\n  "jsx": {\n    "formatJSX": true, //Duh! that\'s the deafault\n    "attrsOnSameLineAsTag": false, // move each attribute to its own line\n    "maxAttrsOnTag": 3, // if lower or equal than 3 attributes, they will be kept on a single line\n    "firstAttributeOnSameLine": true, // keep the first attribute in the same line as the tag\n    "alignWithFirstAttribute": false, // do not align attributes with the first tag\n    "htmlOptions": {\n      "unformatted": [] // let\'s format all tags, the default in `js-beautify.html` is to leave unformatted a lot of tags\n                        // which sometimes will not work fine with all jsx structures. By forcing the formatting of all tags\n                        // this will prevent the introduction of undesired spans in the generated output\n                        // \n                        // example: \n                        // <a><span>Some</span></a> // this is ok\n                        // <a> <span>Some</span> </a> // this is not ok. React will generate extra spans for the \n                        // the empty space characters around the span.\n    }\n  }\n}\n```\n\n## Overview\n\n**Esformatter-jsx** is a plugin for [esformatter](https://github.com/millermedeiros/esformatter) meant to allow the\ncode formatting of jsx files or js files with React code blocks, using [js-beautify](https://www.npmjs.com/package/js-beautify) to \nbeautify the html like syntax of the react components. **Use at your own risk**. I have tested this against complex JSX structures \nand seems to be workfing fine, but bugs might appear, so don\'t blame me :). It works for my main use case and I hope it works for you too.\n \nThis plugin is based on [esformatter-jsx-ignore](https://github.com/royriojas/esformatter-jsx-ignore)\n\nIf you want a bit of history about what this plugin was develop, check: \n- https://github.com/millermedeiros/esformatter/issues/242\n- https://github.com/facebook/esprima/issues/74\n\nSo this plugin will turn this:\n```js\nvar React = require(\'react\');\n\nvar Hello = React.createClass({\nrender: function () {\nreturn <div \n\nclassName="hello-div">{this.props.message}</div>;\n}\n});\n\nReact.render(<Hello \nmessage="world"/>,      document.body);\n```\n\ninto:\n```js\nvar React = require(\'react\');\n\nvar Hello = React.createClass({\n  render: function() {\n    return <div className="hello-div">{this.props.message}</div>;\n  }\n});\n\nReact.render(<Hello message="world"/>, document.body);\n```\n\n## Installation\n\n```sh\n$ npm install esformatter-jsx --save-dev\n```\n\n## Config\n\nNewest esformatter versions autoload plugins from your `node_modules` [See this](https://github.com/millermedeiros/esformatter#plugins)\n\nAdd to your esformatter config file:\n\nIn order for this to work, this plugin should be the first one! (I Know too picky, but who isn\'t).\n\n```javascript\n{\n  "plugins": [\n    "esformatter-jsx"\n  ],\n  // this is the section this plugin will use to store the settings for the jsx formatting\n  "jsx": {\n    // by default is true if set to false it works the same as esformatter-jsx-ignore\n    "formatJSX": true, \n    // keep the node attributes on the same line as the open tag. Default is true. \n    // Setting this to false will put each one of the attributes on a single line\n    "attrsOnSameLineAsTag": true,\n     // how many attributes should the node have before having to put each \n     // attribute in a new line. Default 1\n    "maxAttrsOnTag": 1, \n    // if the attributes are going to be put each one on its own line, then keep the first \n    // on the same line as the open tag\n    "firstAttributeOnSameLine": false,\n    // align the attributes with the first attribute (if the first attribute was kept on the same line as on the open tag)\n    "alignWithFirstAttribute": true,  \n    "htmlOptions": { // same as the ones passed to jsbeautifier.html \n      "brace_style": "collapse",\n      "indent_char": " ",\n      //indentScripts: "keep",\n      "indent_size": 2,\n      "max_preserve_newlines": 2,\n      "preserve_newlines": true\n      //unformatted: ["a", "sub", "sup", "b", "i", "u" ],\n      //wrapLineLength: 0\n    }\n  }\n}\n```\n\nThe `htmlOptions` are passed directly to [js-beautify](https://www.npmjs.com/package/js-beautify), please check his\ndocumentation for all the possible options.\n\nOr you can manually register your plugin:\n```js\n// register plugin\nesformatter.register(require(\'esformatter-jsx\'));\n```\n\n## Usage\n\n```js\nvar fs = require(\'fs\');\nvar esformatter = require(\'esformatter\');\n//register plugin manually\nesformatter.register(require(\'esformatter-jsx\'));\n\nvar str = fs.readFileSync(\'someKewlFile.js\').toString();\nvar output = esformatter.format(str);\n//-> output will now contain the formatted code \n```\n\nSee [esformatter](https://github.com/millermedeiros/esformatter) for more options and further usage.\n\n## License\n\nMIT @[Roy Riojas](http://royriojas.com)',
+86 silly resolved     readmeFilename: 'README.md',
+86 silly resolved     _id: 'esformatter-jsx@1.0.8',
+86 silly resolved     dist: { shasum: '53d6544e5dda65a69b22f5c43661d2865c26c50f' },
+86 silly resolved     _from: 'esformatter-jsx@',
+86 silly resolved     _resolved: 'https://registry.npmjs.org/esformatter-jsx/-/esformatter-jsx-1.0.8.tgz' } ]
+87 info install esformatter-jsx@1.0.8 into /usr/lib
+88 info installOne esformatter-jsx@1.0.8
+89 info /usr/lib/node_modules/esformatter-jsx unbuild
+90 verbose tar unpack /home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz
+91 silly lockFile 222d1fcb-lib-node-modules-esformatter-jsx tar:///usr/lib/node_modules/esformatter-jsx
+92 verbose lock tar:///usr/lib/node_modules/esformatter-jsx /home/zappala/.npm/222d1fcb-lib-node-modules-esformatter-jsx.lock
+93 silly lockFile f22c8afa-sformatter-jsx-1-0-8-package-tgz tar:///home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz
+94 verbose lock tar:///home/zappala/.npm/esformatter-jsx/1.0.8/package.tgz /home/zappala/.npm/f22c8afa-sformatter-jsx-1-0-8-package-tgz.lock
+95 silly gunzTarPerm modes [ '755', '644' ]
+96 error Error: EACCES, mkdir '/usr/lib/node_modules/esformatter-jsx'
+96 error  { [Error: EACCES, mkdir '/usr/lib/node_modules/esformatter-jsx']
+96 error   errno: 3,
+96 error   code: 'EACCES',
+96 error   path: '/usr/lib/node_modules/esformatter-jsx',
+96 error   fstream_type: 'Directory',
+96 error   fstream_path: '/usr/lib/node_modules/esformatter-jsx',
+96 error   fstream_class: 'DirWriter',
+96 error   fstream_stack:
+96 error    [ '/usr/lib/node_modules/fstream/lib/dir-writer.js:36:23',
+96 error      '/usr/lib/node_modules/mkdirp/index.js:37:53',
+96 error      'Object.oncomplete (fs.js:108:15)' ] }
+97 error Please try running this command again as root/Administrator.
+98 error System Linux 3.19.3-200.fc21.x86_64
+99 error command "node" "/usr/bin/npm" "install" "-g" "esformatter-jsx" "--save-dev"
+100 error cwd /home/zappala/Software/listomatic/listomatic-react/public/js
+101 error node -v v0.10.36
+102 error npm -v 1.3.6
+103 error path /usr/lib/node_modules/esformatter-jsx
+104 error fstream_path /usr/lib/node_modules/esformatter-jsx
+105 error fstream_type Directory
+106 error fstream_class DirWriter
+107 error code EACCES
+108 error errno 3
+109 error stack Error: EACCES, mkdir '/usr/lib/node_modules/esformatter-jsx'
+110 error fstream_stack /usr/lib/node_modules/fstream/lib/dir-writer.js:36:23
+110 error fstream_stack /usr/lib/node_modules/mkdirp/index.js:37:53
+110 error fstream_stack Object.oncomplete (fs.js:108:15)
+111 verbose exit [ 3, true ]
