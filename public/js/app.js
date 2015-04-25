@@ -189,7 +189,7 @@ var List = React.createClass({
             <section id="todoapp">
             <ListHeader name={name} items={this.state.items}/>
             <section id="main">
-            <ListEntry />
+            <ListEntry reload={this.componentDidMount.bind(this)}/>
             <ListItems items={this.state.items} reload={this.componentDidMount.bind(this)}/>
             </section>
             </section>
@@ -222,11 +222,21 @@ var ListHeader = React.createClass({
 });
 
 var ListEntry = React.createClass({
+    addItem: function() {
+        // prevent default browser submit
+        event.preventDefault();
+        // get data from form
+        var title = this.refs.title.getDOMNode().value;
+        if (!title) {
+            return;
+        }
+        api.addItem(title, this.props.reload);
+    },
     render: function() {
         return (
             <header id="input">
-            <form id="item-form" name="itemForm" ng-submit="addItem()">
-            <input type="text" id="new-item" placeholder="Enter a new item" value="newTitle" ng-model="newItem" ng-disabled="saving" autofocus />
+            <form id="item-form" name="itemForm" onSubmit={this.addItem}>
+            <input type="text" id="new-item" ref="title" placeholder="Enter a new item" ng-disabled="saving" autofocus />
             </form>
             </header>
             );
@@ -255,8 +265,8 @@ var Item = React.createClass({
         console.log("calling",this.props.reload);
         api.updateItem(item,this.props.reload);
     },
-    removeItem: function(item) {
-
+    deleteItem: function(item) {
+        api.deleteItem(item,this.props.reload);
     },
     editItem: function(item) {
 
@@ -270,7 +280,7 @@ var Item = React.createClass({
             <div className="view">
             <input className="toggle" type="checkbox" onClick={this.toggleCompleted.bind(this,this.props.item)} checked={this.props.item.completed} />
             <label onDoubleClick={this.editItem(this.props.item)}>{this.props.item.title}</label>
-            <button className="destroy" onClick={this.removeItem(this.props.item)}></button>
+            <button className="destroy" onClick={this.deleteItem.bind(this,this.props.item)}></button>
             </div>
             <form onSubmit={this.saveEdits(this.props.item, 'submit')}>
             <input className="edit" ng-keypress="revertEdits(item)" item-escape="revertEdits(item)" item-focus="item == editedItem" />
@@ -282,7 +292,6 @@ var Item = React.createClass({
 
 var api = {
     getItems: function(cb) {
-        console.log("cb",cb);
         var url = "/api/items";
         $.ajax({
             url: url,
@@ -297,6 +306,24 @@ var api = {
                     cb(false,status);
             }
         });
+    },
+    addItem: function(title,cb) {
+        var url = "/api/items";
+        $.ajax({
+            url: url,
+            contentType: 'application/json',
+            data: JSON.stringify({item: {'title': title}}),
+            type: 'POST',
+            success: function(res) {
+                if (cb)
+                    cb(true,res);
+            },
+            error: function(xhr,status,err) {
+                if (cb)
+                    cb(false,status);
+            }
+        });
+
     },
     updateItem: function(item,cb) {
         var url = "/api/items/" + item.id;
@@ -319,7 +346,6 @@ var api = {
         var url = "/api/items/" + item.id;
         $.ajax({
             url: url,
-            dataType: 'json',
             type: 'DELETE',
             success: function(res) {
                 if (cb)
