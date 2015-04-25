@@ -1,4 +1,3 @@
-// test
 var Router = ReactRouter;
 var DefaultRoute = Router.DefaultRoute;
 var Link = Router.Link;
@@ -107,7 +106,7 @@ var Login = React.createClass({
             <div>
             <h2>Login</h2>
             <form className="form-vertical" onSubmit={this.login}>
-            <input type="text" placeholder="Username" ref="username"/>
+            <input type="text" placeholder="Username" ref="username" autoFocus={true} />
             <input type="password" placeholder="Password" ref="password"/>
             <input className="btn" type="submit" value="Login" />
             {this.state.error ? (
@@ -151,7 +150,7 @@ var Register = React.createClass({
             <div>
             <h2>Register</h2>
             <form className="form-vertical" onSubmit={this.register}>
-            <input type="text" placeholder="Name" ref="name"/>
+            <input type="text" placeholder="Name" ref="name" autoFocus={true} />
             <input type="text" placeholder="Username" ref="username"/>
             <input type="password" placeholder="Password" ref="password"/>
             <input className="btn" type="submit" value="Register" />
@@ -231,12 +230,13 @@ var ListEntry = React.createClass({
             return;
         }
         api.addItem(title, this.props.reload);
+        this.refs.title.getDOMNode().value = '';
     },
     render: function() {
         return (
             <header id="input">
             <form id="item-form" name="itemForm" onSubmit={this.addItem}>
-            <input type="text" id="new-item" ref="title" placeholder="Enter a new item" ng-disabled="saving" autofocus />
+            <input type="text" id="new-item" ref="title" placeholder="Enter a new item" ng-disabled="saving" autoFocus={true} />
             </form>
             </header>
             );
