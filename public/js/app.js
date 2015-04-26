@@ -183,6 +183,9 @@ var List = React.createClass({
     componentDidMount: function() {
         api.getItems(this.listSet);
     },
+    reload: function() {
+        api.getItems(this.listSet);
+    },
     listSet: function(status, data) {
         if (status) {
             this.setState({
@@ -196,10 +199,10 @@ var List = React.createClass({
         var name = auth.getName();
         return (
             <section id="todoapp">
-            <ListHeader name={name} items={this.state.items} reload={this.componentDidMount.bind(this)} />
+            <ListHeader name={name} items={this.state.items} reload={this.reload} />
             <section id="main">
-            <ListEntry reload={this.componentDidMount.bind(this)}/>
-            <ListItems items={this.state.items} nowShowing={app.ALL_TODOS} reload={this.componentDidMount.bind(this)}/>
+            <ListEntry reload={this.reload}/>
+            <ListItems items={this.state.items} nowShowing={app.ALL_TODOS} reload={this.reload}/>
             </section>
             </section>
             );
@@ -340,6 +343,8 @@ var api = {
                     cb(true, res);
             },
             error: function(xhr, status, err) {
+                // remove any token
+                delete localStorage.token;
                 console.log(err);
                 if (cb)
                     cb(false, status);
@@ -363,6 +368,8 @@ var api = {
                     cb(true, res);
             },
             error: function(xhr, status, err) {
+                // remove any token
+                delete localStorage.token;
                 if (cb)
                     cb(false, status);
             }
@@ -387,6 +394,8 @@ var api = {
                     cb(true, res);
             },
             error: function(xhr, status, err) {
+                // remove any token
+                delete localStorage.token;
                 if (cb)
                     cb(false, status);
             }
@@ -403,6 +412,8 @@ var api = {
                     cb(true, res);
             },
             error: function(xhr, status, err) {
+                // remove any token
+                delete localStorage.token;
                 if (cb)
                     cb(false, status);
             }
@@ -427,14 +438,13 @@ var auth = {
             success: function(res) {
                 localStorage.token = res.token;
                 localStorage.name = res.name;
-//                $.ajaxPrefilter(function(options, oriOptions, jqXHR) {
-//                    jqXHR.setRequestHeader("Authorization", localStorage.token);
-//                });
                 if (cb)
                     cb(true);
                 this.onChange(true);
             }.bind(this),
             error: function(xhr, status, err) {
+                // remove any token
+                delete localStorage.token;
                 if (cb)
                     cb(false);
                 this.onChange(false);
@@ -448,9 +458,6 @@ var auth = {
         // check if token in local storage
         if (localStorage.token) {
             console.log("token present");
-// /            $.ajaxPrefilter(function(options, oriOptions, jqXHR) {
-//                jqXHR.setRequestHeader("Authorization", localStorage.token);
-//            });
             if (cb)
                 cb(true);
             this.onChange(true);
@@ -471,14 +478,13 @@ var auth = {
                 console.log("success");
                 localStorage.token = res.token;
                 localStorage.name = res.name;
-//                $.ajaxPrefilter(function(options, oriOptions, jqXHR) {
-//                    jqXHR.setRequestHeader("Authorization", localStorage.token);
-//                });
                 if (cb)
                     cb(true);
                 this.onChange(true);
             }.bind(this),
             error: function(xhr, status, err) {
+                // remove any token
+                delete localStorage.token;
                 console.log("failure");
                 if (cb)
                     cb(false);
