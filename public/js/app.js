@@ -275,7 +275,6 @@ var ListItems = React.createClass({
     contextTypes: {
         router: React.PropTypes.func
     },
-
     render: function() {
         var shown = this.props.items.filter(function(item) {
             switch (this.context.router.getCurrentPathname()) {
@@ -289,7 +288,7 @@ var ListItems = React.createClass({
         }, this);
         var list = shown.map(function(item) {
             return (
-                <Item item={item} reload={this.props.reload}/>
+                <Item key={item.id} item={item} reload={this.props.reload}/>
                 );
         }.bind(this));
         return (
@@ -301,30 +300,72 @@ var ListItems = React.createClass({
 });
 
 var Item = React.createClass({
-    toggleCompleted: function(item) {
-        item.completed = !item.completed;
-        api.updateItem(item, this.props.reload);
+    getInitialState: function () {
+        return {
+            editing: false,
+            editText: this.props.item.title
+        };
     },
-    deleteItem: function(item) {
-        api.deleteItem(item, this.props.reload);
+    componentDidUpdate: function (prevProps, prevState) {
+        if (!prevState.editing && this.state.editing) {
+            var node = this.refs.editField.getDOMNode();
+            node.focus();
+            node.setSelectionRange(0, node.value.length);
+        }
     },
-    editItem: function(item) {
+    toggleCompleted: function() {
+        this.props.item.completed = !this.props.item.completed;
+        api.updateItem(this.props.item, this.props.reload);
+    },
+    deleteItem: function() {
+        api.deleteItem(this.props.item, this.props.reload);
+    },
+    editItem: function() {
+        this.setState({editing: true, editText: this.props.item.title});
+    },
+    changeItem: function (event) {
+        this.setState({editing: true, editText: event.target.value});
+    },
+    saveItem: function(event) {
+        var val = this.state.editText.trim();
+        console.log("saving",val);
+        if (val) {
+            console.log('changing editing to false');
+            this.setState({editing: false, editText: val});
+            this.props.item.title = this.state.editText;
+            // save the item
+            api.updateItem(this.props.item, this.props.reload);
+        } else {
+            // delete the item
+            api.deleteItem(this.props.item,this.props.reload);
+        }
+    },
+    handleKeyDown: function (event) {
+        var ESCAPE_KEY = 27;
+        var ENTER_KEY = 13;
+        if (event.which === ESCAPE_KEY) {
+            this.setState({editing: false, editText: this.props.item.title});
+        } else if (event.which === ENTER_KEY) {
+            this.saveItem(event);
+        }
+    },
 
-    },
-    saveEdits: function(item) {
-
-    },
     render: function() {
+        var classes = "";
+        if (this.props.item.completed) {
+            classes += 'completed';
+        }
+        if (this.state.editing) {
+            classes += ' editing';
+        }
         return (
-            <li className={this.props.item.completed ? 'completed' : ''}>
+            <li className={classes}>
             <div className="view">
             <input className="toggle" type="checkbox" onChange={this.toggleCompleted.bind(this,this.props.item)} checked={this.props.item.completed} />
-            <label onDoubleClick={this.editItem(this.props.item)}>{this.props.item.title}</label>
-            <button className="destroy" onClick={this.deleteItem.bind(this,this.props.item)}></button>
+            <label onDoubleClick={this.editItem}>{this.props.item.title}</label>
+            <button className="destroy" onClick={this.deleteItem}></button>
             </div>
-            <form onSubmit={this.saveEdits(this.props.item, 'submit')}>
-            <input className="edit" ng-keypress="revertEdits(item)" item-escape="revertEdits(item)" item-focus="item == editedItem" />
-            </form>
+            <input ref="editField" className="edit" onKeyDown={this.handleKeyDown} onChange={this.changeItem} onSubmit={this.saveItem} onBlur={this.saveItem} value={this.state.editText} />
             </li>
             );
     }

@@ -261,7 +261,7 @@ button.destroy {
     display: none;
 }
 
-tod#o-list li.editing:last-child {
+#todo-list li.editing:last-child {
     margin-bottom: -1px;
 }
 
