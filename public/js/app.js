@@ -1,3 +1,8 @@
+var app = app || {};
+app.ALL_TODOS = 'all';
+app.ACTIVE_TODOS = 'active';
+app.COMPLETED_TODOS = 'completed';
+
 var Router = ReactRouter;
 var DefaultRoute = Router.DefaultRoute;
 var Link = Router.Link;
@@ -64,7 +69,7 @@ var App = React.createClass({
 
 var Home = React.createClass({
     render: function() {
-        return(
+        return (
             <p>
             <Link className="btn btn-default" to="login">Login</Link> or <Link className="btn btn-default" to="register">Register</Link>
             </p>
@@ -94,15 +99,17 @@ var Login = React.createClass({
         if (!username || !password) {
             return;
         }
-        auth.login(username,password, function(loggedIn) {
+        auth.login(username, password, function(loggedIn) {
             if (!loggedIn)
-                return this.setState({ error: true });
+                return this.setState({
+                    error: true
+                });
             this.context.router.replaceWith('/list');
         }.bind(this));
     },
 
     render: function() {
-        return(
+        return (
             <div>
             <h2>Login</h2>
             <form className="form-vertical" onSubmit={this.login}>
@@ -139,14 +146,16 @@ var Register = React.createClass({
         if (!name || !username || !password) {
             return;
         }
-        auth.register(name,username,password, function(loggedIn) {
+        auth.register(name, username, password, function(loggedIn) {
             if (!loggedIn)
-                return this.setState({ error: true });
+                return this.setState({
+                    error: true
+                });
             this.context.router.replaceWith('/list');
         }.bind(this));
     },
-    render:function(){
-        return(
+    render: function() {
+        return (
             <div>
             <h2>Register</h2>
             <form className="form-vertical" onSubmit={this.register}>
@@ -170,14 +179,13 @@ var List = React.createClass({
         };
     },
     componentDidMount: function() {
-        console.log("calling getItems");
         api.getItems(this.listSet);
     },
-    listSet: function(status,data) {
-        console.log(status,data);
+    listSet: function(status, data) {
         if (status) {
-            this.setState({items:data.items});
-            console.log("set state");
+            this.setState({
+                items: data.items
+            });
         } else {
             console.log(data);
         }
@@ -189,7 +197,7 @@ var List = React.createClass({
             <ListHeader name={name} items={this.state.items}/>
             <section id="main">
             <ListEntry reload={this.componentDidMount.bind(this)}/>
-            <ListItems items={this.state.items} reload={this.componentDidMount.bind(this)}/>
+            <ListItems items={this.state.items} nowShowing={app.ALL_TODOS} reload={this.componentDidMount.bind(this)}/>
             </section>
             </section>
             );
@@ -198,7 +206,7 @@ var List = React.createClass({
 
 var ListHeader = React.createClass({
     render: function() {
-        return(
+        return (
             <header id="header">
             <div className="row">
             <div className="col-md-6">
@@ -245,8 +253,22 @@ var ListEntry = React.createClass({
 });
 
 var ListItems = React.createClass({
-    render: function () {
-        var list = this.props.items.map(function (item) {
+    contextTypes: {
+        router: React.PropTypes.func
+    },
+
+    render: function() {
+        var shown = this.props.items.filter(function(item) {
+            switch (this.context.router.getCurrentPathname()) {
+                case '/list/active':
+                return !item.completed;
+                case '/list/completed':
+                return item.completed;
+                default:
+                return true;
+            }
+        }, this);
+        var list = shown.map(function(item) {
             return (
                 <Item item={item} reload={this.props.reload}/>
                 );
@@ -262,11 +284,10 @@ var ListItems = React.createClass({
 var Item = React.createClass({
     toggleCompleted: function(item) {
         item.completed = !item.completed;
-        console.log("calling",this.props.reload);
-        api.updateItem(item,this.props.reload);
+        api.updateItem(item, this.props.reload);
     },
     deleteItem: function(item) {
-        api.deleteItem(item,this.props.reload);
+        api.deleteItem(item, this.props.reload);
     },
     editItem: function(item) {
 
@@ -278,7 +299,7 @@ var Item = React.createClass({
         return (
             <li className={this.props.item.completed ? 'completed' : ''}>
             <div className="view">
-            <input className="toggle" type="checkbox" onClick={this.toggleCompleted.bind(this,this.props.item)} checked={this.props.item.completed} />
+            <input className="toggle" type="checkbox" onChange={this.toggleCompleted.bind(this,this.props.item)} checked={this.props.item.completed} />
             <label onDoubleClick={this.editItem(this.props.item)}>{this.props.item.title}</label>
             <button className="destroy" onClick={this.deleteItem.bind(this,this.props.item)}></button>
             </div>
@@ -299,61 +320,70 @@ var api = {
             type: 'GET',
             success: function(res) {
                 if (cb)
-                    cb(true,res);
+                    cb(true, res);
             },
-            error: function(xhr,status,err) {
+            error: function(xhr, status, err) {
                 if (cb)
-                    cb(false,status);
+                    cb(false, status);
             }
         });
     },
-    addItem: function(title,cb) {
+    addItem: function(title, cb) {
         var url = "/api/items";
         $.ajax({
             url: url,
             contentType: 'application/json',
-            data: JSON.stringify({item: {'title': title}}),
+            data: JSON.stringify({
+                item: {
+                    'title': title
+                }
+            }),
             type: 'POST',
             success: function(res) {
                 if (cb)
-                    cb(true,res);
+                    cb(true, res);
             },
-            error: function(xhr,status,err) {
+            error: function(xhr, status, err) {
                 if (cb)
-                    cb(false,status);
+                    cb(false, status);
             }
         });
 
     },
-    updateItem: function(item,cb) {
+    updateItem: function(item, cb) {
         var url = "/api/items/" + item.id;
         $.ajax({
             url: url,
             contentType: 'application/json',
-            data: JSON.stringify({item: {title:item.title, completed:item.completed}}),
+            data: JSON.stringify({
+                item: {
+                    title: item.title,
+                    completed: item.completed
+                }
+            }),
             type: 'PUT',
             success: function(res) {
                 if (cb)
-                    cb(true,res);
+                    cb(true, res);
             },
-            error: function(xhr,status,err) {
+            error: function(xhr, status, err) {
                 if (cb)
-                    cb(false,status);
+                    cb(false, status);
             }
         });
     },
-    deleteItem: function(item,cb) {
+    deleteItem: function(item, cb) {
         var url = "/api/items/" + item.id;
         $.ajax({
             url: url,
             type: 'DELETE',
             success: function(res) {
                 if (cb)
-                    cb(true,res);
+                    cb(true, res);
             },
-            error: function(xhr,status,err) {
+            error: function(xhr, status, err) {
                 if (cb)
-                    cb(false,status);
+                    cb(false, status);
             }
         });
     }
@@ -368,11 +398,15 @@ var auth = {
             url: url,
             dataType: 'json',
             type: 'POST',
-            data: {name: name, username: username, password: password},
+            data: {
+                name: name,
+                username: username,
+                password: password
+            },
             success: function(res) {
                 localStorage.token = res.token;
                 localStorage.name = res.name;
-                $.ajaxPrefilter(function( options, oriOptions, jqXHR ) {
+                $.ajaxPrefilter(function(options, oriOptions, jqXHR) {
                     jqXHR.setRequestHeader("Authorization", localStorage.token);
                 });
                 if (cb)
@@ -392,7 +426,7 @@ var auth = {
         cb = arguments[arguments.length - 1];
         // check if token in local storage
         if (localStorage.token) {
-            $.ajaxPrefilter(function( options, oriOptions, jqXHR ) {
+            $.ajaxPrefilter(function(options, oriOptions, jqXHR) {
                 jqXHR.setRequestHeader("Authorization", localStorage.token);
             });
             if (cb)
@@ -407,11 +441,14 @@ var auth = {
             url: url,
             dataType: 'json',
             type: 'POST',
-            data: {username: username, password: password},
+            data: {
+                username: username,
+                password: password
+            },
             success: function(res) {
                 localStorage.token = res.token;
                 localStorage.name = res.name;
-                $.ajaxPrefilter(function( options, oriOptions, jqXHR ) {
+                $.ajaxPrefilter(function(options, oriOptions, jqXHR) {
                     jqXHR.setRequestHeader("Authorization", localStorage.token);
                 });
                 if (cb)
@@ -440,19 +477,20 @@ var auth = {
     loggedIn: function() {
         return !!localStorage.token;
     },
-    onChange: function() {
-    },
+    onChange: function() {},
 };
 
 var routes = (
     <Route name="app" path="/" handler={App}>
-    <Route name="list" handler={List}/>
+    <Route name="list" path ="/list" handler={List}/>
+    <Route name="active" path = "/list/active" handler={List}/>
+    <Route name="completed" path = "/list/completed" handler={List}/>
     <Route name="login" handler={Login}/>
     <Route name="register" handler={Register}/>
     <DefaultRoute handler={Home}/>
     </Route>
     );
 
-Router.run(routes, function (Handler) {
+Router.run(routes, function(Handler) {
     React.render(<Handler/>, document.body);
 });
