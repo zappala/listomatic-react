@@ -194,7 +194,7 @@ var List = React.createClass({
         var name = auth.getName();
         return (
             <section id="todoapp">
-            <ListHeader name={name} items={this.state.items}/>
+            <ListHeader name={name} items={this.state.items} reload={this.componentDidMount.bind(this)} />
             <section id="main">
             <ListEntry reload={this.componentDidMount.bind(this)}/>
             <ListItems items={this.state.items} nowShowing={app.ALL_TODOS} reload={this.componentDidMount.bind(this)}/>
@@ -205,7 +205,18 @@ var List = React.createClass({
 });
 
 var ListHeader = React.createClass({
+    clearCompleted: function () {
+        forEach(this.props.items, function(item) {
+            if (item.completed) {
+                api.deleteItem(item, null);
+            }
+        });
+        this.props.reload();
+    },
     render: function() {
+        var completed = this.props.items.filter(function(item) {
+            return item.completed;
+        })
         return (
             <header id="header">
             <div className="row">
@@ -218,10 +229,13 @@ var ListHeader = React.createClass({
             </p>
             <p><i>Double-click to edit an item</i></p>
             </div>
-            <div className="col-md-6 right">
-            <button ng-if="hasCompleted" className="btn btn-warning btn-md" id="clear-completed" onClick={this.clearCompleted} ng-show="completedCount">Clear completed (completed)
-            </button>
-            </div>
+            {completed.length > 0 ? (
+                <div className="col-md-6 right">
+                <button className="btn btn-warning btn-md" id="clear-completed" onClick={this.clearCompleted}>Clear completed ({completed.length})
+
+                </button>
+                </div>
+                ) : null }
             </div>
             </header>
             );
