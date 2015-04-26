@@ -91,8 +91,6 @@ var Login = React.createClass({
     login: function(event) {
         // prevent default browser submit
         event.preventDefault();
-        // router context
-        // var router = this.context.router;
         // get data from form
         var username = this.refs.username.getDOMNode().value;
         var password = this.refs.password.getDOMNode().value;
@@ -104,7 +102,7 @@ var Login = React.createClass({
                 return this.setState({
                     error: true
                 });
-            this.context.router.replaceWith('/list');
+            this.context.router.transitionTo('/list');
         }.bind(this));
     },
 
@@ -173,6 +171,10 @@ var Register = React.createClass({
 });
 
 var List = React.createClass({
+    contextTypes: {
+        router: React.PropTypes.func
+    },
+
     getInitialState: function() {
         return {
             items: [],
@@ -187,7 +189,7 @@ var List = React.createClass({
                 items: data.items
             });
         } else {
-            console.log(data);
+            this.context.router.transitionTo('/login');
         }
     },
     render: function() {
@@ -205,7 +207,7 @@ var List = React.createClass({
 });
 
 var ListHeader = React.createClass({
-    clearCompleted: function () {
+    clearCompleted: function (event) {
         forEach(this.props.items, function(item) {
             if (item.completed) {
                 api.deleteItem(item, null);
@@ -243,7 +245,7 @@ var ListHeader = React.createClass({
 });
 
 var ListEntry = React.createClass({
-    addItem: function() {
+    addItem: function(event) {
         // prevent default browser submit
         event.preventDefault();
         // get data from form
@@ -332,11 +334,13 @@ var api = {
             url: url,
             dataType: 'json',
             type: 'GET',
+            headers: {'Authorization': localStorage.token},
             success: function(res) {
                 if (cb)
                     cb(true, res);
             },
             error: function(xhr, status, err) {
+                console.log(err);
                 if (cb)
                     cb(false, status);
             }
@@ -353,6 +357,7 @@ var api = {
                 }
             }),
             type: 'POST',
+            headers: {'Authorization': localStorage.token},
             success: function(res) {
                 if (cb)
                     cb(true, res);
@@ -376,6 +381,7 @@ var api = {
                 }
             }),
             type: 'PUT',
+            headers: {'Authorization': localStorage.token},
             success: function(res) {
                 if (cb)
                     cb(true, res);
@@ -391,6 +397,7 @@ var api = {
         $.ajax({
             url: url,
             type: 'DELETE',
+            headers: {'Authorization': localStorage.token},
             success: function(res) {
                 if (cb)
                     cb(true, res);
@@ -420,9 +427,9 @@ var auth = {
             success: function(res) {
                 localStorage.token = res.token;
                 localStorage.name = res.name;
-                $.ajaxPrefilter(function(options, oriOptions, jqXHR) {
-                    jqXHR.setRequestHeader("Authorization", localStorage.token);
-                });
+//                $.ajaxPrefilter(function(options, oriOptions, jqXHR) {
+//                    jqXHR.setRequestHeader("Authorization", localStorage.token);
+//                });
                 if (cb)
                     cb(true);
                 this.onChange(true);
@@ -440,9 +447,10 @@ var auth = {
         cb = arguments[arguments.length - 1];
         // check if token in local storage
         if (localStorage.token) {
-            $.ajaxPrefilter(function(options, oriOptions, jqXHR) {
-                jqXHR.setRequestHeader("Authorization", localStorage.token);
-            });
+            console.log("token present");
+// /            $.ajaxPrefilter(function(options, oriOptions, jqXHR) {
+//                jqXHR.setRequestHeader("Authorization", localStorage.token);
+//            });
             if (cb)
                 cb(true);
             this.onChange(true);
@@ -460,16 +468,18 @@ var auth = {
                 password: password
             },
             success: function(res) {
+                console.log("success");
                 localStorage.token = res.token;
                 localStorage.name = res.name;
-                $.ajaxPrefilter(function(options, oriOptions, jqXHR) {
-                    jqXHR.setRequestHeader("Authorization", localStorage.token);
-                });
+//                $.ajaxPrefilter(function(options, oriOptions, jqXHR) {
+//                    jqXHR.setRequestHeader("Authorization", localStorage.token);
+//                });
                 if (cb)
                     cb(true);
                 this.onChange(true);
             }.bind(this),
             error: function(xhr, status, err) {
+                console.log("failure");
                 if (cb)
                     cb(false);
                 this.onChange(false);
