@@ -1,38 +1,56 @@
-var app = app || {};
-app.ALL_TODOS = 'all';
-app.ACTIVE_TODOS = 'active';
-app.COMPLETED_TODOS = 'completed';
-
+// React Router
+// http://rackt.github.io/react-router/
 var Router = ReactRouter;
 var DefaultRoute = Router.DefaultRoute;
 var Link = Router.Link;
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 var Redirect = Router.Redirect;
+
+// Map of components
+// App
+//   Home
+//   Login
+//   Register
+//   Login
+//     ListHeader
+//     ListEntry
+//     ListItems
+//       Item
+
+// Top-level component for the app
 var App = React.createClass({
+    // context so the component can access the router
     contextTypes: {
         router: React.PropTypes.func
     },
 
+    // initial state
     getInitialState: function() {
         return {
+	        // the user is logged in
             loggedIn: auth.loggedIn()
         };
     },
 
+    // callback when user is logged in
     setStateOnAuth: function(loggedIn) {
         this.state.loggedIn = loggedIn;
     },
 
+    // when the component loads, setup the callback
     componentWillMount: function() {
         auth.onChange = this.setStateOnAuth;
     },
 
+    // logout the user and redirect to home page
     logout: function(event) {
         auth.logout();
         this.context.router.replaceWith('/');
-
     },
+
+    // show the navigation bar
+    // the route handler replaces the RouteHandler element with the current page
     render: function() {
         return (
             <div>
@@ -64,9 +82,11 @@ var App = React.createClass({
             </div>
             </div>
             );
+
 }
 });
 
+// Home page, which shows Login and Register buttons
 var Home = React.createClass({
     render: function() {
         return (
@@ -77,17 +97,23 @@ var Home = React.createClass({
     }
 });
 
+// Login page, shows the login form and redirects to the list if login is successful
 var Login = React.createClass({
+    // context so the component can access the router
     contextTypes: {
         router: React.PropTypes.func
     },
 
+    // initial state
     getInitialState: function() {
         return {
+            // there was an error on logging in
             error: false
         };
 
     },
+
+    // handle login button submit
     login: function(event) {
         // prevent default browser submit
         event.preventDefault();
@@ -97,7 +123,9 @@ var Login = React.createClass({
         if (!username || !password) {
             return;
         }
+        // login via API
         auth.login(username, password, function(loggedIn) {
+            // login callback
             if (!loggedIn)
                 return this.setState({
                     error: true
@@ -106,6 +134,7 @@ var Login = React.createClass({
         }.bind(this));
     },
 
+    // show the login form
     render: function() {
         return (
             <div>
@@ -123,17 +152,22 @@ var Login = React.createClass({
     }
 });
 
+// Register page, shows the registration form and redirects to the list if login is successful
 var Register = React.createClass({
+    // context so the component can access the router
     contextTypes: {
         router: React.PropTypes.func
     },
 
+    // initial state
     getInitialState: function() {
         return {
+            // there was an error registering
             error: false
         };
-
     },
+
+    // handle regiser button submit
     register: function(event) {
         // prevent default browser submit
         event.preventDefault();
@@ -144,7 +178,9 @@ var Register = React.createClass({
         if (!name || !username || !password) {
             return;
         }
+        // register via the API
         auth.register(name, username, password, function(loggedIn) {
+            // register callback
             if (!loggedIn)
                 return this.setState({
                     error: true
@@ -152,6 +188,8 @@ var Register = React.createClass({
             this.context.router.replaceWith('/list');
         }.bind(this));
     },
+
+    // show the registration form
     render: function() {
         return (
             <div>
@@ -170,31 +208,45 @@ var Register = React.createClass({
     }
 });
 
+// List page, shows the todo list of items
 var List = React.createClass({
+    // context so the component can access the router
     contextTypes: {
         router: React.PropTypes.func
     },
 
+    // initial state
     getInitialState: function() {
         return {
+            // list of items in the todo list
             items: [],
         };
     },
+
+    // when the component loads, get the list items
     componentDidMount: function() {
         api.getItems(this.listSet);
     },
+
+    // reload the list of items
     reload: function() {
         api.getItems(this.listSet);
     },
+
+    // callback for getting the list of items, sets the list state
     listSet: function(status, data) {
         if (status) {
+            // set the state for the list of items
             this.setState({
                 items: data.items
             });
         } else {
+            // if the API call fails, redirect to the login page
             this.context.router.transitionTo('/login');
         }
     },
+
+    // Show the list of items. This component has the following children: ListHeader, ListEntry and ListItems
     render: function() {
         var name = auth.getName();
         return (
@@ -202,23 +254,30 @@ var List = React.createClass({
             <ListHeader name={name} items={this.state.items} reload={this.reload} />
             <section id="main">
             <ListEntry reload={this.reload}/>
-            <ListItems items={this.state.items} nowShowing={app.ALL_TODOS} reload={this.reload}/>
+            <ListItems items={this.state.items} reload={this.reload}/>
             </section>
             </section>
             );
     }
 });
 
+// List header, which shows who the list is for, the number of items in the list, and a button to clear completed items
 var ListHeader = React.createClass({
+    // handle the clear completed button submit    
     clearCompleted: function (event) {
+        // loop through the items, and delete any that are complete
         forEach(this.props.items, function(item) {
             if (item.completed) {
                 api.deleteItem(item, null);
             }
         });
+        // reload the list
         this.props.reload();
     },
+
+    // render the list header
     render: function() {
+        // true if there are any completed items
         var completed = this.props.items.filter(function(item) {
             return item.completed;
         })
@@ -247,7 +306,9 @@ var ListHeader = React.createClass({
     }
 });
 
+// List entry component, handles adding new items to the list
 var ListEntry = React.createClass({
+    // handles submit event for adding a new item
     addItem: function(event) {
         // prevent default browser submit
         event.preventDefault();
@@ -256,9 +317,12 @@ var ListEntry = React.createClass({
         if (!title) {
             return;
         }
+        // call API to add item, and reload once added
         api.addItem(title, this.props.reload);
         this.refs.title.getDOMNode().value = '';
     },
+
+    // render the item entry area
     render: function() {
         return (
             <header id="input">
@@ -271,11 +335,16 @@ var ListEntry = React.createClass({
     }
 });
 
+// List items component, shows the list of items
 var ListItems = React.createClass({
+    // context so the component can access the router
     contextTypes: {
         router: React.PropTypes.func
     },
+
+    // render the list of items
     render: function() {
+        // get list of items to show, using the path to the current page
         var shown = this.props.items.filter(function(item) {
             switch (this.context.router.getCurrentPathname()) {
                 case '/list/active':
@@ -286,11 +355,15 @@ var ListItems = React.createClass({
                 return true;
             }
         }, this);
+
+        // using the list of items, generate an Item element for each one
         var list = shown.map(function(item) {
             return (
                 <Item key={item.id} item={item} reload={this.props.reload}/>
                 );
         }.bind(this));
+
+        // render the list
         return (
             <ul id="todo-list">
             {list}
@@ -299,13 +372,18 @@ var ListItems = React.createClass({
     }
 });
 
+// Item shown in the todo list
 var Item = React.createClass({
+    // initial state
     getInitialState: function () {
         return {
+            // editing this item
             editing: false,
+            // text saved before editing started
             editText: this.props.item.title
         };
     },
+    // set the focus and selection range when this item is updated
     componentDidUpdate: function (prevProps, prevState) {
         if (!prevState.editing && this.state.editing) {
             var node = this.refs.editField.getDOMNode();
@@ -313,44 +391,51 @@ var Item = React.createClass({
             node.setSelectionRange(0, node.value.length);
         }
     },
+    // when the item is completed, toggle its state and update it
     toggleCompleted: function() {
         this.props.item.completed = !this.props.item.completed;
         api.updateItem(this.props.item, this.props.reload);
     },
+    // called when the delete button is clicked for this item
     deleteItem: function() {
         api.deleteItem(this.props.item, this.props.reload);
     },
+    // called when the item is double-clicked
     editItem: function() {
         this.setState({editing: true, editText: this.props.item.title});
     },
+    // called when the item is changed
     changeItem: function (event) {
         this.setState({editing: true, editText: event.target.value});
     },
+    // called when the enter key is entered after the item is edited
     saveItem: function(event) {
         var val = this.state.editText.trim();
-        console.log("saving",val);
         if (val) {
-            console.log('changing editing to false');
             this.setState({editing: false, editText: val});
             this.props.item.title = this.state.editText;
             // save the item
             api.updateItem(this.props.item, this.props.reload);
         } else {
-            // delete the item
+            // delete the item if there is no text left any more
             api.deleteItem(this.props.item,this.props.reload);
         }
     },
+    // called when a ke is pressed
     handleKeyDown: function (event) {
         var ESCAPE_KEY = 27;
         var ENTER_KEY = 13;
+        // if the ESC key is pressed, then cancel editing
+        // if the ENTER key is pressed, then save edited text
         if (event.which === ESCAPE_KEY) {
             this.setState({editing: false, editText: this.props.item.title});
         } else if (event.which === ENTER_KEY) {
             this.saveItem(event);
         }
     },
-
+    // render the Item
     render: function() {
+        // construct a list of classes for the item CSS
         var classes = "";
         if (this.props.item.completed) {
             classes += 'completed';
@@ -371,7 +456,9 @@ var Item = React.createClass({
     }
 });
 
+// API object
 var api = {
+    // get the list of items, call the callback when complete
     getItems: function(cb) {
         var url = "/api/items";
         $.ajax({
@@ -384,14 +471,14 @@ var api = {
                     cb(true, res);
             },
             error: function(xhr, status, err) {
-                // remove any token
+                // if there is an error, remove the login token
                 delete localStorage.token;
-                console.log(err);
                 if (cb)
                     cb(false, status);
             }
         });
     },
+    // add an item, call the callback when complete
     addItem: function(title, cb) {
         var url = "/api/items";
         $.ajax({
@@ -409,7 +496,7 @@ var api = {
                     cb(true, res);
             },
             error: function(xhr, status, err) {
-                // remove any token
+                // if there is an error, remove the login token
                 delete localStorage.token;
                 if (cb)
                     cb(false, status);
@@ -417,6 +504,7 @@ var api = {
         });
 
     },
+    // update an item, call the callback when complete
     updateItem: function(item, cb) {
         var url = "/api/items/" + item.id;
         $.ajax({
@@ -435,13 +523,14 @@ var api = {
                     cb(true, res);
             },
             error: function(xhr, status, err) {
-                // remove any token
+                // if there is any error, remove any login token
                 delete localStorage.token;
                 if (cb)
                     cb(false, status);
             }
         });
     },
+    // delete an item, call the callback when complete
     deleteItem: function(item, cb) {
         var url = "/api/items/" + item.id;
         $.ajax({
@@ -453,7 +542,7 @@ var api = {
                     cb(true, res);
             },
             error: function(xhr, status, err) {
-                // remove any token
+                // if there is an error, remove any login token
                 delete localStorage.token;
                 if (cb)
                     cb(false, status);
@@ -463,9 +552,10 @@ var api = {
 
 };
 
+// authentication object
 var auth = {
     register: function(name, username, password, cb) {
-        // submit request to server
+        // submit request to server, call the callback when complete
         var url = "/api/users/register";
         $.ajax({
             url: url,
@@ -476,6 +566,7 @@ var auth = {
                 username: username,
                 password: password
             },
+            // on success, store a login token
             success: function(res) {
                 localStorage.token = res.token;
                 localStorage.name = res.name;
@@ -484,21 +575,20 @@ var auth = {
                 this.onChange(true);
             }.bind(this),
             error: function(xhr, status, err) {
-                // remove any token
+                // if there is an error, remove any login token
                 delete localStorage.token;
                 if (cb)
                     cb(false);
                 this.onChange(false);
-                console.error(url, status, err.toString());
             }.bind(this)
         });
     },
+    // login the user
     login: function(username, password, cb) {
-        // submit login request to server
+        // submit login request to server, call callback when complete
         cb = arguments[arguments.length - 1];
         // check if token in local storage
         if (localStorage.token) {
-            console.log("token present");
             if (cb)
                 cb(true);
             this.onChange(true);
@@ -516,7 +606,7 @@ var auth = {
                 password: password
             },
             success: function(res) {
-                console.log("success");
+                // on success, store a login token
                 localStorage.token = res.token;
                 localStorage.name = res.name;
                 if (cb)
@@ -524,33 +614,37 @@ var auth = {
                 this.onChange(true);
             }.bind(this),
             error: function(xhr, status, err) {
-                // remove any token
+                // if there is an error, remove any login token
                 delete localStorage.token;
-                console.log("failure");
                 if (cb)
                     cb(false);
                 this.onChange(false);
-                console.error(url, status, err.toString());
             }.bind(this)
         });
     },
+    // get the token from local storage
     getToken: function() {
         return localStorage.token;
     },
+    // get the name from local storage
     getName: function() {
         return localStorage.name;
     },
+    // logout the user, call the callback when complete
     logout: function(cb) {
         delete localStorage.token;
         if (cb) cb();
         this.onChange(false);
     },
+    // check if user is logged in
     loggedIn: function() {
         return !!localStorage.token;
     },
+    // default onChange function
     onChange: function() {},
 };
 
+// routes for the app
 var routes = (
     <Route name="app" path="/" handler={App}>
     <Route name="list" path ="/list" handler={List}/>
@@ -562,6 +656,7 @@ var routes = (
     </Route>
     );
 
+// Run the routes
 Router.run(routes, function(Handler) {
     React.render(<Handler/>, document.body);
 });
