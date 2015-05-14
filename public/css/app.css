@@ -72,8 +72,7 @@ body {
 }
 
 input[type="radio"], input[type="checkbox"] {
-    vertical-align: text-bottom;
-    margin-right: 2px !important;
+    display: none;
 }
 
 .form-control {
@@ -163,44 +162,36 @@ input[type="radio"], input[type="checkbox"] {
 	display: none;
 }
 
-#todo-list li .toggle {
-	text-align: center;
-	width: 40px;
-	/* auto, since non-WebKit browsers doesn't support input styling */
-	height: auto;
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	margin: auto 0;
-	border: none; /* Mobile Safari */
-	-webkit-appearance: none;
-	/*-moz-appearance: none;*/
-	-ms-appearance: none;
-	-o-appearance: none;
-	appearance: none;
+#todo-list li label.check {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 25px;
 }
 
-#todo-list li .toggle:after {
-	content: '✔';
-	line-height: 43px; /* 40 + a couple of pixels visual adjustment */
-	font-size: 20px;
-	color: #d9d9d9;
-	text-shadow: 0 -1px 0 #bfbfbf;
+#todo-list li label.check:before {
+    content: '✔';
+    color: #d9d9d9;
+    text-shadow: 0 -1px 0 #bfbfbf;
+    font-size: 20px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    left: 0;
+    bottom: 1px;
 }
 
-#todo-list li .toggle:checked:after {
-	color: #85ada7;
-	text-shadow: 0 1px 0 #669991;
-	bottom: 1px;
-	position: relative;
+#todo-list li.completed label.check:before {
+    color: #85ada7;
+    text-shadow: 0 1px 0 #669991;
+    bottom: 1px;
 }
 
 #todo-list li label {
 	word-break: break-word;
 	font-weight: normal;
 	padding: 15px;
-	margin-left: 45px;
-	display: block;
 	line-height: 1.2;
 	-webkit-transition: color 0.4s;
 	-moz-transition: color 0.4s;

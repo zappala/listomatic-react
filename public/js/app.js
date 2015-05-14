@@ -446,9 +446,9 @@ var Item = React.createClass({
         return (
             <li className={classes}>
             <div className="view">
-            <input className="toggle" type="checkbox" onChange={this.toggleCompleted.bind(this,this.props.item)} checked={this.props.item.completed} />
-            <label onDoubleClick={this.editItem}>{this.props.item.title}</label>
-            <button className="destroy" onClick={this.deleteItem}></button>
+		<input id={this.props.item.id} className="toggle" type="checkbox" onChange={this.toggleCompleted.bind(this,this.props.item)} checked={this.props.item.completed} />
+		<label className="check" htmlFor={this.props.item.id}/><label DoubleClick={this.editItem}>{this.props.item.title}</label>
+		<button className="destroy" onClick={this.deleteItem}></button>
             </div>
             <input ref="editField" className="edit" onKeyDown={this.handleKeyDown} onChange={this.changeItem} onSubmit={this.saveItem} onBlur={this.saveItem} value={this.state.editText} />
             </li>
