@@ -266,11 +266,12 @@ var ListHeader = React.createClass({
     // handle the clear completed button submit    
     clearCompleted: function (event) {
         // loop through the items, and delete any that are complete
-        forEach(this.props.items, function(item) {
+        this.props.items.forEach(function(item) {
             if (item.completed) {
                 api.deleteItem(item, null);
             }
         });
+        // XXX race condition because the API call to delete is async
         // reload the list
         this.props.reload();
     },
@@ -447,7 +448,8 @@ var Item = React.createClass({
             <li className={classes}>
             <div className="view">
 		<input id={this.props.item.id} className="toggle" type="checkbox" onChange={this.toggleCompleted.bind(this,this.props.item)} checked={this.props.item.completed} />
-		<label className="check" htmlFor={this.props.item.id}/><label DoubleClick={this.editItem}>{this.props.item.title}</label>
+		<label className="check" htmlFor={this.props.item.id}/>
+        <label DoubleClick={this.editItem}>{this.props.item.title}</label>
 		<button className="destroy" onClick={this.deleteItem}></button>
             </div>
             <input ref="editField" className="edit" onKeyDown={this.handleKeyDown} onChange={this.changeItem} onSubmit={this.saveItem} onBlur={this.saveItem} value={this.state.editText} />
