@@ -65,7 +65,7 @@ var App = React.createClass({
             </button>
             <a className="navbar-brand" href="/">List-o-matic</a>
             </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             {this.state.loggedIn ? (
                 <ul className="nav navbar-nav">
                 <li><a href="#/list">All</a></li>
@@ -281,7 +281,7 @@ var ListHeader = React.createClass({
         // true if there are any completed items
         var completed = this.props.items.filter(function(item) {
             return item.completed;
-        })
+        });
         return (
             <header id="header">
             <div className="row">
@@ -407,10 +407,13 @@ var Item = React.createClass({
     },
     // called when the item is changed
     changeItem: function (event) {
-        this.setState({editing: true, editText: event.target.value});
+        this.setState({editText: event.target.value});
     },
     // called when the enter key is entered after the item is edited
     saveItem: function(event) {
+        if (!this.state.editing) {
+            return;
+        }
         var val = this.state.editText.trim();
         if (val) {
             this.setState({editing: false, editText: val});
@@ -422,7 +425,7 @@ var Item = React.createClass({
             api.deleteItem(this.props.item,this.props.reload);
         }
     },
-    // called when a ke is pressed
+    // called when a key is pressed
     handleKeyDown: function (event) {
         var ESCAPE_KEY = 27;
         var ENTER_KEY = 13;
@@ -447,10 +450,10 @@ var Item = React.createClass({
         return (
             <li className={classes}>
             <div className="view">
-		<input id={this.props.item.id} className="toggle" type="checkbox" onChange={this.toggleCompleted.bind(this,this.props.item)} checked={this.props.item.completed} />
-		<label className="check" htmlFor={this.props.item.id}/>
-        <label DoubleClick={this.editItem}>{this.props.item.title}</label>
-		<button className="destroy" onClick={this.deleteItem}></button>
+            <input id={this.props.item.id} className="toggle" type="checkbox" onChange={this.toggleCompleted.bind(this,this.props.item)} checked={this.props.item.completed} />
+            <label className="check" htmlFor={this.props.item.id}/>
+            <label onDoubleClick={this.editItem}>{this.props.item.title}</label>
+            <button className="destroy" onClick={this.deleteItem}></button>
             </div>
             <input ref="editField" className="edit" onKeyDown={this.handleKeyDown} onChange={this.changeItem} onSubmit={this.saveItem} onBlur={this.saveItem} value={this.state.editText} />
             </li>
