@@ -20,7 +20,7 @@ var Redirect = Router.Redirect;
 
 // Top-level component for the app
 var App = React.createClass({
-    // context so the component can access the router
+    // context so the componevnt can access the router
     contextTypes: {
         router: React.PropTypes.func
     },
@@ -91,7 +91,7 @@ var Home = React.createClass({
     render: function() {
         return (
             <p>
-            <Link className="btn btn-default" to="login">Login</Link> or <Link className="btn btn-default" to="register">Register</Link>
+            <Link className="btn btn-default" to="login">Login</Link> or <Link className="btn btn-warning" to="register">Register</Link>
             </p>
             );
     }
@@ -142,7 +142,7 @@ var Login = React.createClass({
             <form className="form-vertical" onSubmit={this.login}>
             <input type="text" placeholder="Username" ref="username" autoFocus={true} />
             <input type="password" placeholder="Password" ref="password"/>
-            <input className="btn" type="submit" value="Login" />
+            <input className="btn btn-warning" type="submit" value="Login" />
             {this.state.error ? (
                 <div className="alert">Invalid username or password.</div>
                 ) : null}
@@ -328,7 +328,7 @@ var ListEntry = React.createClass({
         return (
             <header id="input">
             <form id="item-form" name="itemForm" onSubmit={this.addItem}>
-            <input type="text" id="new-item" ref="title" placeholder="Enter a new item" ng-disabled="saving" autoFocus={true} />
+            <input type="text" id="new-item" ref="title" placeholder="Enter a new item" autoFocus={true} />
             </form>
             </header>
             );
