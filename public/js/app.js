@@ -368,6 +368,7 @@ var ListItems = React.createClass({
         return (
             <ul id="todo-list">
             {list}
+
             </ul>
             );
     }
@@ -652,11 +653,11 @@ var auth = {
 // routes for the app
 var routes = (
     <Route name="app" path="/" handler={App}>
-    <Route name="list" path ="/list" handler={List}/>
-    <Route name="active" path = "/list/active" handler={List}/>
-    <Route name="completed" path = "/list/completed" handler={List}/>
-    <Route name="login" handler={Login}/>
-    <Route name="register" handler={Register}/>
+	    <Route name="list" path ="/list" handler={List}/>
+	    <Route name="active" path = "/list/active" handler={List}/>
+	    <Route name="completed" path = "/list/completed" handler={List}/>
+	    <Route name="login" handler={Login}/>
+	    <Route name="register" handler={Register}/>
     <DefaultRoute handler={Home}/>
     </Route>
     );
